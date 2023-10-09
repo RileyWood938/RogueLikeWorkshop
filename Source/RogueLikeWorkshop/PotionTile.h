@@ -8,13 +8,15 @@
 /**
  * 
  */
+class ARougeLikeController;
+
 class ROGUELIKEWORKSHOP_API PotionTile : public Tile
 {
 public:
 	PotionTile();
 	PotionTile(int potionTileStrength);
 	~PotionTile();
-	virtual bool MoveOntoBehavior(RougeLikePlayer* target, int moveLocationX, int moveLocationY) override;
+	virtual bool MoveOntoBehavior(RougeLikePlayer* target, int moveLocationX, int moveLocationY, ARougeLikeController* caller) override;
 	virtual FString PrintTile() override;
 
 private:

@@ -15,7 +15,7 @@ ARougeLikeController::ARougeLikeController()
 	PrimaryActorTick.bCanEverTick = true;
 	mapSizeX = 8;
 	mapSizeY = 8;
-
+	playerOnItemTile = false;
 }
 
 // Called when the game starts or when spawned
@@ -23,7 +23,7 @@ void ARougeLikeController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	rougeLikePLayer = new RougeLikePlayer(0, 0, new Weapon(2));
+	rougeLikePLayer = new RougeLikePlayer(0, 0, new Weapon(2), 0);
 
 	map.SetNum(mapSizeY);
 
@@ -52,6 +52,12 @@ void ARougeLikeController::Tick(float DeltaTime)
 }
 
 void ARougeLikeController::printMap() {
+	FString bar = "";
+	for (int i = 0; i < mapSizeY; i++) {
+		bar.Append("==");
+	}
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, bar);
+
 	for (int i = 0; i < mapSizeY; i++)
 	{
 		FString row = "";
@@ -70,18 +76,18 @@ void ARougeLikeController::movePlayer(int amountX, int amountY) {
 	//make sure that the new positions are within bounds
 	if (newXPos<0 || newXPos>=mapSizeX) {
 		newXPos = rougeLikePLayer->GetPositionX(); //would subtracting off the amountX be more effecient here?
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "New X pos out of bounds");
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "New X pos out of bounds");
 
 	}
 	if (newYPos<0 || newYPos>=mapSizeY) {
 		newYPos = rougeLikePLayer->GetPositionY(); //would subtracting off the amountX be more effecient here?
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "New Y pos out of bounds");
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "New Y pos out of bounds");
 
 	}
 	
 	//get tile at new position and attempt to move there
-	if (map[newYPos][newXPos]->MoveOntoBehavior(rougeLikePLayer, newXPos, newYPos)) {
-
+	playerOnItemTile = false;
+	if (map[newYPos][newXPos]->MoveOntoBehavior(rougeLikePLayer, newXPos, newYPos, this)) {
 		map[rougeLikePLayer->GetPositionY()][rougeLikePLayer->GetPositionX()] = new Tile();
 		
 		rougeLikePLayer->SetPositionX(newXPos);
@@ -107,7 +113,7 @@ Tile* ARougeLikeController::RandomTile() {
 		return  new Tile();
 		break;
 	case 1:
-		return  new Creature(new Weapon(weaponPower), weaponPower, this);
+		return  new Creature(new Weapon(weaponPower), weaponPower, weaponPower);
 		break;
 	case 2:
 		return  new ItemTile(new Weapon(weaponPower));
@@ -115,7 +121,7 @@ Tile* ARougeLikeController::RandomTile() {
 	case 3:
 		return new Tile();
 	case 4:
-		return new GoldTile();
+		return new GoldTile(weaponPower);
 		break;
 	case 5:
 		return new Wall();
@@ -129,24 +135,72 @@ Tile* ARougeLikeController::RandomTile() {
 	}
 }
 
-void ARougeLikeController::startFight(Creature * defender, Creature * attacker, int defenderLocationx, int defenderLocationY) {
+void ARougeLikeController::startFight(Creature* defender, Creature* attacker, int defenderLocationx, int defenderLocationY) {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "fighting");
 
-	if (attacker->getWeapon() !=nullptr && defender->getWeapon() != nullptr) {
+	if (attacker->getWeapon() != nullptr && defender->getWeapon() != nullptr) {
 		int defenderhp = defender->getHp() - attacker->getWeapon()->getDamage();
 		int attackerhp = attacker->getHp() - defender->getWeapon()->getDamage();
-		if (defenderhp <= 0) {
-
-		}
 		if (attackerhp <= 0) {
+			gameOver();
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "YOU DIED");
+		}
+		else if (defenderhp <= 0) {
+			map[defenderLocationY][defenderLocationx] = new GoldTile(defender->getGold());
+			delete(defender);
+			attacker->setHp(attackerhp);
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, "You Killed The Enemy!");
+		}
+		else {
+			attacker->setHp(attackerhp);
+			defender->setHp(defenderhp);
+		}
 
+
+	}
+	else {
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, "Weapon is null");
+
+	}
+}
+
+void ARougeLikeController::setPlayerOnItemTile(bool input) {
+	playerOnItemTile = input;
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, "Weapon Available");
+
+}
+
+void ARougeLikeController::pickUpWeapon() {
+	if (playerOnItemTile) {
+		if (weaponCache != nullptr) {
+			rougeLikePLayer->changeWeapon(weaponCache);
+			GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "New Weapon!");
 		}
 	}
 	else {
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, "Weapon is null");
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "No Weapon To Pick Up");
 
-	}	
-
+	}
 	
 }
+
+void ARougeLikeController::updateWeaponCache(Weapon* newWeapon) {
+	if (newWeapon != nullptr) {
+		weaponCache = newWeapon;
+	}
+}
+
+
+//void ARougeLikeController::restartGame() {
+//	delete(rougeLikePLayer);
+//	for (int i = 0; i < mapSizeY; i++)
+//	{
+//		for (int j = 0; j < mapSizeX; j++)
+//		{
+//			delete(map[i][j]);
+//		}
+//	}
+//
+//	ARougeLikeController::BeginPlay();
+//}
 

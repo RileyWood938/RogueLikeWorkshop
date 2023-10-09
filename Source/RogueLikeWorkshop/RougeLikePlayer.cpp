@@ -1,13 +1,14 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "RougeLikePlayer.h"
 
-RougeLikePlayer::RougeLikePlayer(int positionX, int positionY, Weapon* inWeapon)
+RougeLikePlayer::RougeLikePlayer(int positionX, int positionY, Weapon* inWeapon, int inGold)
 {
 	this->positionX = positionX;
 	this->positionY = positionY;
 	this->activeWeapon = inWeapon;
+	this->hp = 25;
+	this->gold = inGold;
 }
 
 RougeLikePlayer::~RougeLikePlayer()
@@ -18,8 +19,8 @@ FString RougeLikePlayer::PrintTile() {
 	return "P";
 }
 
-bool RougeLikePlayer::MoveOntoBehavior(RougeLikePlayer* target, int moveLocationX, int moveLocationY) {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, "tryMoveToPlayerTile");
+bool RougeLikePlayer::MoveOntoBehavior(RougeLikePlayer* target, int moveLocationX, int moveLocationY, ARougeLikeController* caller) {
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, "tryMoveToPlayerTile");
 
 	return true;
 }
@@ -36,6 +37,7 @@ int  RougeLikePlayer::GetPositionY() {
 	return positionY;
 }
 void RougeLikePlayer::setHp(int newHp) {
+	Creature::setHp(newHp);
 	FString message = "Your HP is: ";
 	message.AppendInt(hp);
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, message);

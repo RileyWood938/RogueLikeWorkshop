@@ -8,13 +8,14 @@
 /**
  * 
  */
+class ARougeLikeController;
 class ROGUELIKEWORKSHOP_API GoldTile : public Tile
 {
 public:
 	GoldTile();
 	GoldTile(float tileContents);
 	~GoldTile();
-	virtual bool MoveOntoBehavior(class RougeLikePlayer* target, int moveLocationX, int moveLocationY) override;
+	virtual bool MoveOntoBehavior(class RougeLikePlayer* target, int moveLocationX, int moveLocationY, ARougeLikeController* caller) override;
 	virtual FString PrintTile() override;
 
 private:

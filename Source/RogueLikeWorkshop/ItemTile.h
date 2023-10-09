@@ -11,15 +11,17 @@
 /**
  * 
  */
+class ARougeLikeController;
+
 class ROGUELIKEWORKSHOP_API ItemTile : public Tile
 {
 public:
 	ItemTile();
-	ItemTile(Item* incontents);
+	ItemTile(Weapon* incontents);
 	~ItemTile();
-	virtual bool MoveOntoBehavior(class RougeLikePlayer* target, int moveLocationX, int moveLocationY) override;
+	virtual bool MoveOntoBehavior(class RougeLikePlayer* target, int moveLocationX, int moveLocationY, ARougeLikeController* caller);
 	virtual FString PrintTile() override;
 
 private:
-	Item* contents;
+	Weapon* contents;
 };

@@ -8,10 +8,12 @@
 /**
  * 
  */
+class ARougeLikeController;
+
 class ROGUELIKEWORKSHOP_API RougeLikePlayer : public Creature
 {
 public:
-	RougeLikePlayer(int positionX, int positionY, Weapon* inWeapon);
+	RougeLikePlayer(int positionX, int positionY, Weapon* inWeapon, int inGold);
 	~RougeLikePlayer();
 
 private:
@@ -24,7 +26,7 @@ public:
 	void SetPositionY(int newPosition);
 	int  GetPositionY();
 	virtual FString PrintTile() override;
-	bool MoveOntoBehavior(RougeLikePlayer* target, int moveLocationX, int moveLocationY) override;
+	bool MoveOntoBehavior(RougeLikePlayer* target, int moveLocationX, int moveLocationY, ARougeLikeController* caller) override;
 	virtual void setHp(int newHp) override;
 	virtual void changeGold(int goldChange) override;
 

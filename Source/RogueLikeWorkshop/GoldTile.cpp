@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "GoldTile.h"
+
 
 GoldTile::GoldTile()
 {
@@ -17,9 +17,9 @@ GoldTile::~GoldTile()
 {
 }
 
-bool GoldTile::MoveOntoBehavior(RougeLikePlayer* target, int moveLocationX, int moveLocationY)
+bool GoldTile::MoveOntoBehavior(RougeLikePlayer* target, int moveLocationX, int moveLocationY, ARougeLikeController* caller)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, "tryMoveToGoldTile");
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, "tryMoveToGoldTile");
 
 	target->changeGold(contents);
 	contents = 0;

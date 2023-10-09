@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "PotionTile.h"
+
 
 PotionTile::PotionTile()
 {
@@ -17,7 +17,7 @@ PotionTile::~PotionTile()
 {
 }
 
-bool PotionTile::MoveOntoBehavior(RougeLikePlayer* target, int moveLocationX, int moveLocationY) {
+bool PotionTile::MoveOntoBehavior(RougeLikePlayer* target, int moveLocationX, int moveLocationY, ARougeLikeController* caller) {
 	target->setHp(target->getHp() + potionStrength);
 	return true;
 }
