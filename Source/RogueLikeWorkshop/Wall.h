@@ -14,7 +14,7 @@ class ROGUELIKEWORKSHOP_API Wall : public Tile
 public:
 	Wall();
 	~Wall();
-	virtual bool MoveOntoBehavior(class RougeLikePlayer* target) override;
+	virtual bool MoveOntoBehavior(class RougeLikePlayer* target, int moveLocationX, int moveLocationY) override;
 	virtual FString PrintTile() override;
 
 };

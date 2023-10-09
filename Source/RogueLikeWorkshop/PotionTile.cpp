@@ -17,7 +17,7 @@ PotionTile::~PotionTile()
 {
 }
 
-bool PotionTile::MoveOntoBehavior(RougeLikePlayer* target) {
+bool PotionTile::MoveOntoBehavior(RougeLikePlayer* target, int moveLocationX, int moveLocationY) {
 	target->setHp(target->getHp() + potionStrength);
 	return true;
 }

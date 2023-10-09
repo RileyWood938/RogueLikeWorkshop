@@ -1,10 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Creature.h"
 #include "ItemTile.h"
 #include "GoldTile.h"
 #include "Wall.h"
+#include "Weapon.h"
 #include "PotionTile.h"
 #include "RougeLikeController.h"
 
@@ -23,7 +23,7 @@ void ARougeLikeController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	rougeLikePLayer = new RougeLikePlayer(0, 0);
+	rougeLikePLayer = new RougeLikePlayer(0, 0, new Weapon(2));
 
 	map.SetNum(mapSizeY);
 
@@ -79,18 +79,8 @@ void ARougeLikeController::movePlayer(int amountX, int amountY) {
 
 	}
 	
-	bool test = map[newYPos][newXPos]->MoveOntoBehavior(rougeLikePLayer);
-	
-	if (test) {
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "tile clear");
-	}
-	else {
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "tile not clear");
-
-	}
-
 	//get tile at new position and attempt to move there
-	if (map[newYPos][newXPos]->MoveOntoBehavior(rougeLikePLayer)) {
+	if (map[newYPos][newXPos]->MoveOntoBehavior(rougeLikePLayer, newXPos, newYPos)) {
 
 		map[rougeLikePLayer->GetPositionY()][rougeLikePLayer->GetPositionX()] = new Tile();
 		
@@ -117,7 +107,7 @@ Tile* ARougeLikeController::RandomTile() {
 		return  new Tile();
 		break;
 	case 1:
-		return  new Creature(new Weapon(weaponPower), weaponPower);
+		return  new Creature(new Weapon(weaponPower), weaponPower, this);
 		break;
 	case 2:
 		return  new ItemTile(new Weapon(weaponPower));
@@ -138,13 +128,25 @@ Tile* ARougeLikeController::RandomTile() {
 		break;
 	}
 }
-void ARougeLikeController::startFight(Creature * defender, Creature * attacker) {
-	
-	int defenderhp = defender->getHp() - attacker->getWeapon()->getDamage();
-	int attackerhp = attacker->getHp() - defender->getWeapon()->getDamage();
 
-	if (defenderhp <= 0) {
-		map 
+void ARougeLikeController::startFight(Creature * defender, Creature * attacker, int defenderLocationx, int defenderLocationY) {
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "fighting");
+
+	if (attacker->getWeapon() !=nullptr && defender->getWeapon() != nullptr) {
+		int defenderhp = defender->getHp() - attacker->getWeapon()->getDamage();
+		int attackerhp = attacker->getHp() - defender->getWeapon()->getDamage();
+		if (defenderhp <= 0) {
+
+		}
+		if (attackerhp <= 0) {
+
+		}
 	}
+	else {
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Blue, "Weapon is null");
+
+	}	
+
+	
 }
 

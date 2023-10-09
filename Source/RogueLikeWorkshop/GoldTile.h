@@ -14,7 +14,7 @@ public:
 	GoldTile();
 	GoldTile(float tileContents);
 	~GoldTile();
-	virtual bool MoveOntoBehavior(class RougeLikePlayer* target) override;
+	virtual bool MoveOntoBehavior(class RougeLikePlayer* target, int moveLocationX, int moveLocationY) override;
 	virtual FString PrintTile() override;
 
 private:

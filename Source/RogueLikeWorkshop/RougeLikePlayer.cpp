@@ -3,10 +3,11 @@
 
 #include "RougeLikePlayer.h"
 
-RougeLikePlayer::RougeLikePlayer(int positionX, int positionY)
+RougeLikePlayer::RougeLikePlayer(int positionX, int positionY, Weapon* inWeapon)
 {
 	this->positionX = positionX;
 	this->positionY = positionY;
+	this->activeWeapon = inWeapon;
 }
 
 RougeLikePlayer::~RougeLikePlayer()
@@ -17,7 +18,7 @@ FString RougeLikePlayer::PrintTile() {
 	return "P";
 }
 
-bool RougeLikePlayer::MoveOntoBehavior(RougeLikePlayer* target) {
+bool RougeLikePlayer::MoveOntoBehavior(RougeLikePlayer* target, int moveLocationX, int moveLocationY) {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, "tryMoveToPlayerTile");
 
 	return true;

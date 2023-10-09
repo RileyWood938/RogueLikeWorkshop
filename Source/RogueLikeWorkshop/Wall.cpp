@@ -11,7 +11,7 @@ Wall::~Wall()
 {
 }
 
-bool Wall::MoveOntoBehavior(RougeLikePlayer* target) {
+bool Wall::MoveOntoBehavior(RougeLikePlayer* target, int moveLocationX, int moveLocationY) {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, "tryMoveToWallTile");
 
 	return false;

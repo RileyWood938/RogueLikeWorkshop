@@ -11,7 +11,7 @@ Tile::~Tile()
 {
 }
 
-bool Tile::MoveOntoBehavior(RougeLikePlayer* target) {
+bool Tile::MoveOntoBehavior(RougeLikePlayer* target, int moveLocationX, int moveLocationY) {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, "tryMoveToTile");
 
 	return true;

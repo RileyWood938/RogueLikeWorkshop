@@ -14,7 +14,7 @@ public:
 	PotionTile();
 	PotionTile(int potionTileStrength);
 	~PotionTile();
-	virtual bool MoveOntoBehavior(RougeLikePlayer* target) override;
+	virtual bool MoveOntoBehavior(RougeLikePlayer* target, int moveLocationX, int moveLocationY) override;
 	virtual FString PrintTile() override;
 
 private:

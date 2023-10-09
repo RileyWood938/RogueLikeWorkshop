@@ -3,20 +3,20 @@
 #pragma once
 #include "Weapon.h"
 #include "Tile.h"
-#include "RougeLikeController.h"
 #include "CoreMinimal.h"
 
 /**
  * 
  */
+class ARougeLikeController;
 class ROGUELIKEWORKSHOP_API Creature : public Tile
 {
 
 public:
 	Creature();
 	~Creature();
-	Creature(Weapon* inWeapon, int inHp);
-	virtual bool MoveOntoBehavior(RougeLikePlayer* target) override;
+	Creature(Weapon* inWeapon, int inHp, ARougeLikeController* inOwner);
+	virtual bool MoveOntoBehavior(RougeLikePlayer* target, int moveLocationX, int moveLocationY) override;
 	Weapon* changeWeapon(Weapon* item);
 	virtual FString PrintTile() override;
 	virtual void changeGold(int goldChange);
@@ -28,6 +28,6 @@ protected:
 	int hp;
 	int gold;
 	Weapon* activeWeapon;
-	ARougeLikeController owner;
+	ARougeLikeController* owner;
 
 };

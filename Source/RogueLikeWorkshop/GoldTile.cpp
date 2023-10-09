@@ -17,7 +17,7 @@ GoldTile::~GoldTile()
 {
 }
 
-bool GoldTile::MoveOntoBehavior(RougeLikePlayer* target)
+bool GoldTile::MoveOntoBehavior(RougeLikePlayer* target, int moveLocationX, int moveLocationY)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, "tryMoveToGoldTile");
 

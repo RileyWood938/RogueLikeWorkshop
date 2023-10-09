@@ -5,9 +5,11 @@
 #include "Tile.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Creature.h"
 #include "RougeLikePlayer.h"
 #include "RougeLikeController.generated.h"
 
+class Creature;
 UCLASS()
 class ROGUELIKEWORKSHOP_API ARougeLikeController : public AActor
 {
@@ -27,7 +29,7 @@ public:
 	void printMap();
 	UFUNCTION(BlueprintCallable, Category = "RougeLikeController")
 	void movePlayer(int amountX, int amountY);
-	void startFight(Creature* defender, Creature* attacker);
+	void startFight(Creature* defender, Creature* attacker, int defenderLocationx, int defenderLocationY);
 
 
 private:

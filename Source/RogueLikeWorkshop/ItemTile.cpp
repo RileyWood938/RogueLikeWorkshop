@@ -16,7 +16,7 @@ ItemTile::ItemTile(Item* incontents) {
 }
 
 
-bool ItemTile::MoveOntoBehavior(RougeLikePlayer* target) {
+bool ItemTile::MoveOntoBehavior(RougeLikePlayer* target, int moveLocationX, int moveLocationY) {
 	//target->addToInventory(contents);
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, "tryMoveToItemTile");
 
